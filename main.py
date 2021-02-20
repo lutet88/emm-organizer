@@ -25,9 +25,7 @@ buttonstyle = """
             font-family: "DejaVu Sans Mono";
             font-size: 40px;
             height: 175px;
-            min-width: 360px;
-            max-width: 360px;
-            border: 15px ridge rgb(60, 90, 120);
+            width: 360px;
             color: rgb(0,0,0);
             background-color: rgb(120, 150, 180)
             }
@@ -35,15 +33,13 @@ buttonstyle = """
 titlestyle = """
     QWidget {
             font-family: "DejaVu Sans";
-            font-size: 40px; 
-            font-size: 60px; 
+            font-size: 40px;  
             font-weight:bold;
             height: 100px;
             margin-bottom:200px;
             margin-left: 75px;
             color: rgb(56, 56, 56);
-            min-width: 600px;
-            max-width: 600px;
+            width: 600px;
             }
         """
 
