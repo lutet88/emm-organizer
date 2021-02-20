@@ -1,10 +1,21 @@
+import platform
 import sys
+import platform
 
 from PyQt5.QtWidgets import QApplication, QGridLayout, QPushButton, QWidget
 
+
 app = QApplication(sys.argv)
 window = QWidget()
-window.showFullScreen()
+
+dist = platform.dist()
+
+if dist[0] == "debian":
+    window.showFullScreen()
+else:
+    window.setWindowTitle('Rpi Screen')
+    window.setGeometry(100, 100, 800, 480)
+    window.show()
 
 
 layout = QGridLayout()
