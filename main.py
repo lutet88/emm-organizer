@@ -8,8 +8,6 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushBut
 app = QApplication(sys.argv)
 window = QWidget()
 
-os = platform.platform()
-
 dist = platform.platform()
 
 
@@ -20,26 +18,6 @@ else:
     window.setFixedSize(800, 480)
     window.show()
 
-# Should create three different boxes horizontally
-# layout = QHBoxLayout()
-# layout.addWidget(QPushButton('Left'))
-# layout.addWidget(QPushButton('Center'))
-# layout.addWidget(QPushButton('Right'))
-# window.setLayout(layout)
-# window.show()
-
-# Should create three different boxes vertically
-# layout = QVBoxLayout()
-# layout.addWidget(QPushButton('Top'))
-# layout.addWidget(QPushButton('Center'))
-# layout.addWidget(QPushButton('Bottom'))
-# window.setLayout(layout)
-# window.show()
-
-# Note that QV and QH can't be in the same area as they are right now, because the first one overrides the second.
-
-
-# Grid Layout Widget
 
 
 buttonstyle = """
@@ -53,7 +31,7 @@ buttonstyle = """
 titlestyle = """
     QWidget {
             font-family: "DejaVu Sans";
-            font-size: 60px; 
+            font-size: 40px; 
             height: 100px;
             background-position: top right
             }
@@ -63,46 +41,53 @@ def DisplayText():
     QLabel("Pog")
 
 
-Mainlayout = QGridLayout()
-Editorlayout = QGridLayout()
-
+mainLayout = QGridLayout()
+editorLayout = QGridLayout()
 
 
 # Main Menu
-MenuTitle = QLabel("Smart Cabnite")
+MenuTitle = QLabel("Smart Cabinet v0.1")
 MenuTitle.setStyleSheet(titlestyle)
 
-Button1 = QPushButton("Button 1")
-Button1.setStyleSheet(buttonstyle)
-Button2 = QPushButton("Button 2")
-Button2.setStyleSheet(buttonstyle)
-Button3 = QPushButton("Button 3")
-Button3.setStyleSheet(buttonstyle)
-Button4 = QPushButton("Button 4")
-Button4.setStyleSheet(buttonstyle)
-
-Mainlayout.addWidget(MenuTitle, 0, 0, 2, 1)
-Mainlayout.addWidget(Button1, 1, 0)
-Mainlayout.addWidget(Button2, 1, 1)
-Mainlayout.addWidget(Button3, 2, 0)
-Mainlayout.addWidget(Button4, 2, 1)
+def buttonPressed(button):
+    print("button", button, "pressed")
 
 def Button1pressed():
-    print("hi")
+    buttonPressed(0)
 
 def Button2pressed():
-    print("hi")
+    buttonPressed(1)
 
 def Button3pressed():
-    print("hi")
+    buttonPressed(2)
     
 def Button4pressed():
-    print("hi")
+    buttonPressed(3)
 
-Button1.clicked.connect(Button1pressed)
-Button2.clicked.connect(Button2pressed)
-Button3.clicked.connect(Button3pressed)
-Button4.clicked.connect(Button4pressed)
+class ButtonLayout:
+    def __init__(self, names):
+        self.buttons = [QPushButton() for x in range(4)]
+        for buttonIndex in range(4):
+            self.buttons[buttonIndex].setStyleSheet(buttonstyle)
+            self.buttons[buttonIndex].setText(names[buttonIndex])
+    def changeText(self, id, text):
+        self.buttons[id].setText(text)
+    def connectButton(self, id, connection):
+        self.buttons[id].clicked.connect(connection)
+
+buttons = ButtonLayout(["A", "B", "C", "D"])
+buttons.connectButton(0, Button1pressed)
+buttons.connectButton(1, Button2pressed)
+buttons.connectButton(2, Button3pressed)
+buttons.connectButton(3, Button4pressed)
+
+mainLayout.addWidget(MenuTitle, 0, 0, 2, 1)
+mainLayout.addWidget(buttons.buttons[0], 1, 0)
+mainLayout.addWidget(buttons.buttons[1], 1, 1)
+mainLayout.addWidget(buttons.buttons[2], 2, 0)
+mainLayout.addWidget(buttons.buttons[3], 2, 1)
+
+
 
 
 #Editor Layout
@@ -111,13 +96,13 @@ Button4.clicked.connect(Button4pressed)
 EditorTitle = QLabel("Brexit")
 EditorTitle.setStyleSheet(titlestyle)
 
-Editorlayout.addWidget(EditorTitle, 0, 0)
+editorLayout.addWidget(EditorTitle, 0, 0)
 
 
 
 
 
-window.setLayout(Mainlayout)
+window.setLayout(mainLayout)
 
 sys.exit(app.exec_())
 
