@@ -35,7 +35,7 @@ buttonstyle = """
             background-color: rgb(120, 150, 180)
             }
         """
-titlestyle = """789006
+titlestyle = """
     QWidget {
             font-family: "DejaVu Sans";
             font-size: 40px;  
@@ -69,6 +69,7 @@ layer = 0
 # Main Menu
 MenuTitle = QLabel("Smart Cabinet")
 MenuTitle.setStyleSheet(titlestyle)
+MenuTitle.setAlignment(Qt.AlignCenter)
 
 class ButtonLayout:
     def __init__(self, names):
