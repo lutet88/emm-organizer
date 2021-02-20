@@ -148,6 +148,9 @@ def buttonPressed(button):
         layer = 1
         mainWidget.hide()
         editorWidget.show()
+        for button in range(20):
+            (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
+            rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
         
     elif layer == 0 and button == 2:
         # etc etc
@@ -177,12 +180,14 @@ def handleCabinetButtons(i):
     (x, y) = i
     print("button", x, y, "pressed")
     global rgb, mapper, layer
-    rgb.clear()
     
     # fill rgb for all cells
-    for button in range(20):
-        (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
-        rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
+    if prevcoord[0] == x and prevcoord[1] == y:
+        for button in range(20):
+            (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
+            rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
+    else:
+        clear()
     
     if prevcoord:
         cabinet.buttons[prevcoord[0]][prevcoord[1]].setText(db.getName(4 * prevcoord[0] + prevcoord[1]))
@@ -196,7 +201,7 @@ def handleCabinetButtons(i):
         rgb.clear()
         return
 
-    cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+"/"+str(db.getMaximum(4 * x + y)))
+    cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+" / "+str(db.getMaximum(4 * x + y)))
     (r, g, b) = getColoredStyle(x, y)
     rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 105)*0.4), int((int(g) - 105)*0.4), int((int(b) - 105)*0.4))
     cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
