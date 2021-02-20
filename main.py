@@ -1,12 +1,20 @@
 import sys
+import platform
 
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout, QGridLayout, QFormLayout, QLineEdit, QDialogButtonBox, QDialog
 
 # Hello World in Application
 app = QApplication(sys.argv)
 window = QWidget()
-window.showFullScreen()
 
+dist = platform.dist()
+
+if dist[0] == "debian":
+    window.showFullScreen()
+else:
+    window.setWindowTitle('Rpi Screen')
+    window.setGeometry(100, 100, 800, 480)
+    window.show()
 
 # Should create three different boxes horizontally
 # layout = QHBoxLayout()
@@ -29,14 +37,24 @@ window.showFullScreen()
 
 # Grid Layout Widget
 layout = QGridLayout()
-layout.addWidget(QPushButton('Button (0, 0)'), 0, 0)
-layout.addWidget(QPushButton('Button (0, 1)'), 0, 1)
-layout.addWidget(QPushButton('Button (0, 2)'), 0, 2)
-layout.addWidget(QPushButton('Button (1, 0)'), 1, 0)
-layout.addWidget(QPushButton('Button (1, 1)'), 1, 1)
-layout.addWidget(QPushButton('Button (1, 2)'), 1, 2)
-layout.addWidget(QPushButton('Button (2, 0)'), 2, 0)
-layout.addWidget(QPushButton('Button (2, 1) + 2 Columns Span'), 2, 1, 1, 2)
+
+MenuTitle = QLabel("Smart Cabnite")
+
+EditStockButton = QPushButton("Edit Stock")
+StockVisButton = QPushButton("Visulize Current Stock")
+TempButton = QPushButton("Edit Project Templates")
+StartProjectButtom = QPushButton("Start Project")
+
+layout.addWidget(MenuTitle, 0, 0, 2, 1)
+layout.addWidget(EditStockButton, 1, 0)
+layout.addWidget(StockVisButton, 1, 1)
+layout.addWidget(TempButton, 2, 0)
+layout.addWidget(StartProjectButtom, 2, 1)
+
+# layout.addWidget(QPushButton('Button (1, 1)'), 1, 1)
+# layout.addWidget(QPushButton('Button (1, 2)'), 1, 2)
+# layout.addWidget(QPushButton('Button (2, 0)'), 2, 0)
+# layout.addWidget(QPushButton('Button (2, 1) + 2 Columns Span'), 2, 1, 1, 2)
 window.setLayout(layout)
 
 # Form Layout
