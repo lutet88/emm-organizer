@@ -30,6 +30,14 @@ class PinMapper:
 
     def createPinMap(self, actual_value, x, y):
         PinMap(actual_value, x, y, self)
+
+    def getMapByValue(self, value):
+        for m in pinmaps:
+            if pinmaps[m].value == value:
+                return pinmaps[m]
+
+    def getMapBy2DIndex(self, idx):
+        return self.d2d[idx // 4][idx % 4]
     
 class PinMap:
     def __init__(self, actual_value, x, y, mapper):
