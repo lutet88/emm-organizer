@@ -59,12 +59,19 @@ titlestyle = """
             }
         """
 
+def DisplayText():
+    QLabel("Pog")
+
 
 MenuTitle = QLabel("Smart Cabnite")
 MenuTitle.setStyleSheet(titlestyle)
 
 Button1 = QPushButton("Button 1")
 Button1.setStyleSheet(buttonstyle)
+if Button1.clicked:
+    DisplayText()
+else:
+    pass
 Button2 = QPushButton("Button 2")
 Button2.setStyleSheet(buttonstyle)
 Button3 = QPushButton("Button 3")
