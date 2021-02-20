@@ -150,7 +150,7 @@ def buttonPressed(button):
         editorWidget.show()
         for button in range(20):
             (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
-            rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
+            rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b, True)
         
     elif layer == 0 and button == 2:
         # etc etc
@@ -182,14 +182,13 @@ def handleCabinetButtons(i):
     global rgb, mapper, layer
     
     # fill rgb for all cells
-    if prevcoord[0] == x and prevcoord[1] == y:
-        for button in range(20):
-            (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
-            rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
-    else:
-        clear()
-    
     if prevcoord:
+        if prevcoord[0] == x and prevcoord[1] == y:
+            for button in range(20):
+                (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
+                rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
+        else:
+            clear()
         cabinet.buttons[prevcoord[0]][prevcoord[1]].setText(db.getName(4 * prevcoord[0] + prevcoord[1]))
         (r, g, b) = (str(k) for k in db.getColor(4 * prevcoord[0] + prevcoord[1]))
         cabinet.buttons[prevcoord[0]][prevcoord[1]].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
