@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout, QGridLayout, QFormLayout, QLineEdit, QDialogButtonBox, QDialog
 from hwcode.RGBController import RGBController
 from hwcode.pinmaps import get_pinmapper
+from database import Database
 
 # Hello World in Application
 app = QApplication(sys.argv)
@@ -13,7 +14,7 @@ window = QWidget()
 os = platform.system()
 
 if os == "Linux":
-    comport = "/tty/ACM0"
+    comport = "/dev/ttyACM0"
 else:
     comport = "COM14"
 
@@ -24,6 +25,7 @@ dist = platform.platform()
 mapper = get_pinmapper()
 rgb = RGBController(comport)
 rgb.clear()
+db = Database("db4.json", testing=True)
 
 
 if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
@@ -59,12 +61,19 @@ titlestyle = """
 cabinetstyle = """
     QWidget {
             font-family: "DejaVu Sans";
-            font-size: 40px;  
-            font-weight:bold;
-            text-align: right;
+            font-size: 20px;  
+            text-align: center;
             height: 100px;
             color: rgb(56, 56, 56);
-            }
+        """
+        
+cabinethighlightedstyle = """
+    QWidget {
+            font-family: "DejaVu Sans";
+            font-size: 20px;  
+            text-align: center;
+            height: 100px;
+            color: rgb(56, 56, 56);
         """
 
 def DisplayText():
@@ -140,6 +149,9 @@ def buttonPressed(button):
         layer = 1
         mainWidget.hide()
         editorWidget.show()
+        for button in range(20):
+            (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
+            rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b, True)
         
     elif layer == 0 and button == 2:
         # etc etc
@@ -150,19 +162,61 @@ def buttonPressed(button):
         
 names = ["John", "William", "Charles", "James", "George", "Frank", "Joseph", "Henry", "Thomas", "Harry"]
 
+
+def getColoredStyle(x, y):
+    quant = db.getQuantity(4 * x + y)
+    maximum = db.getMaximum(4 * x + y)
+    diff = quant / maximum
+    neg = 0 if diff > 0.5 else 0.5 - diff
+    pos = 0 if diff < 0.5 else diff - 0.5
+    r = str(int(155 + neg * 100))
+    g = str(int(155 + pos * 100))
+    b = "155"
+    return (r, g, b)
+
+
+prevcoord = [-1, -1]
+prevrealcoord = []
 def handleCabinetButtons(i):
+    global prevcoord, prevrealcoord
+
+    print("entry: prevcoord:", prevcoord, prevrealcoord)
     (x, y) = i
     print("button", x, y, "pressed")
     global rgb, mapper, layer
-    rgb.clear()
+    
+    # fill rgb for all cells
+    if prevcoord:
+        if prevcoord[0] == x and prevcoord[1] == y:
+            for button in range(20):
+                (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
+                rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
+        else:
+            rgb.clear()
+        if prevrealcoord and not (prevrealcoord[0] == x and prevrealcoord[1] == y):
+            print("refreshing the thing at", "x, y")
+            cabinet.buttons[prevrealcoord[0]][prevrealcoord[1]].setText(db.getName(4 * prevrealcoord[0] + prevrealcoord[1]))
+            (r, g, b) = (str(k) for k in db.getColor(4 * prevrealcoord[0] + prevrealcoord[1]))
+            cabinet.buttons[prevrealcoord[0]][prevrealcoord[1]].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
     if x == 0 and y == 0:
         layer = 0
         # switch back
         mainWidget.show()
         editorWidget.hide()
+        rgb.clear()
         return
-    rgb.fillStrip(mapper.getMapBy2D(x, y).value, 0, 25, 0, True)
-    
+
+    cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+" / "+str(db.getMaximum(4 * x + y)))
+    (r, g, b) = getColoredStyle(x, y)
+    rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 105)*0.4), int((int(g) - 105)*0.4), int((int(b) - 105)*0.4))
+    cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
+    if prevcoord[0] == x and prevcoord[1] == y:
+        prevcoord = [-1, -1]
+    else:
+        prevcoord = [x, y]
+    prevrealcoord = [x, y]
+    rgb.refresh()
+    print("exit: prevcoord:", prevcoord, prevrealcoord)
 
 
 class CabinetLayout:
@@ -170,8 +224,9 @@ class CabinetLayout:
         self.buttons = [[QPushButton() for x in range(4)] for y in range(5)]
         for x in range(5):
             for y in range(4):
-                self.buttons[x][y].setStyleSheet(cabinetstyle)
-                self.buttons[x][y].setText(names[x][y])
+                (r, g, b) = (str(k) for k in db.getColor(4 * x + y))
+                self.buttons[x][y].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
+                self.buttons[x][y].setText(db.getName(4 * x + y))
     def assignToLayout(self, layout):
         for x in range(5):
             for y in range(4):
