@@ -13,7 +13,7 @@ os = platform.platform()
 dist = platform.platform()
 
 
-if dist[0] == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
+if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
     window.showFullScreen()
 else:
     window.setWindowTitle('Rpi Screen')
