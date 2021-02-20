@@ -2,3 +2,5 @@ $GIT_DIR/.idea/*
 *.xml
 $GIT_DIR/.kdev4/*
 *.kdev4
+*.kate-swp
+*.pyc
