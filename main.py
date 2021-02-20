@@ -1,7 +1,6 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout, QGridLayout, \
-    QFormLayout, QLineEdit, QDialogButtonBox, QDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout, QGridLayout, QFormLayout, QLineEdit, QDialogButtonBox, QDialog
 
 # Hello World in Application
 app = QApplication(sys.argv)
@@ -9,10 +8,10 @@ window = QWidget()
 window.setWindowTitle('PyQt5 App')
 window.setGeometry(0, 0, 800, 40)
 # ( where it starts X, where it starts Y, horizontal, vertical)
-window.move(60, 15)
+window.showFullScreen
 # helloMsg = QLabel('<h1>Hello World!</h1>', parent=window)
 # helloMsg.move(60, 15)
-window.show()
+# window.show()
 
 # Should create three different boxes horizontally
 # layout = QHBoxLayout()
