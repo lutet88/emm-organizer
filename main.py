@@ -35,7 +35,7 @@ buttonstyle = """
             background-color: rgb(120, 150, 180)
             }
         """
-titlestyle = """
+titlestyle = """789006
     QWidget {
             font-family: "DejaVu Sans";
             font-size: 40px;  
@@ -58,6 +58,8 @@ editorWidget = QWidget()
 mainWidget.setLayout(mainLayout)
 editorWidget.setLayout(editorLayout)
 
+allLayout.addWidget(mainWidget)
+allLayout.addWidget(editorWidget)
 
 editorWidget.hide()
 
