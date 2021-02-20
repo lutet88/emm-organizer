@@ -187,7 +187,6 @@ def handleCabinetButtons(i):
             for button in range(20):
                 (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
                 rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
-            prevcoord = [-1, -1]
         else:
             rgb.clear()
         if prevcoord[0] != -1:
@@ -206,7 +205,10 @@ def handleCabinetButtons(i):
     (r, g, b) = getColoredStyle(x, y)
     rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 105)*0.4), int((int(g) - 105)*0.4), int((int(b) - 105)*0.4))
     cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
-    prevcoord = [x, y]
+    if prevcoord[0] == x and prevcoord[1] == y:
+        prevcoord = [-1, -1]
+    else:
+        prevcoord = [x, y]
     rgb.refresh()
 
 
