@@ -74,10 +74,6 @@ MenuTitle.setStyleSheet(titlestyle)
 
 Button1 = QPushButton("Button 1")
 Button1.setStyleSheet(buttonstyle)
-if Button1.clicked:
-    DisplayText()
-else:
-    pass
 Button2 = QPushButton("Button 2")
 Button2.setStyleSheet(buttonstyle)
 Button3 = QPushButton("Button 3")
@@ -91,9 +87,23 @@ Mainlayout.addWidget(Button2, 1, 1)
 Mainlayout.addWidget(Button3, 2, 0)
 Mainlayout.addWidget(Button4, 2, 1)
 
-window.setLayout(Mainlayout)
+def Button1pressed():
+    print("hi")
 
-Button1.clicked.connect(window.setLayout(Editorlayout))
+def Button2pressed():
+    print("hi")
+
+def Button3pressed():
+    print("hi")
+    
+def Button4pressed():
+    print("hi")
+
+Button1.clicked.connect(Button1pressed)
+Button2.clicked.connect(Button2pressed)
+Button3.clicked.connect(Button3pressed)
+Button4.clicked.connect(Button4pressed)
+
 
 #Editor Layout
 
@@ -105,6 +115,9 @@ Editorlayout.addWidget(EditorTitle, 0, 0)
 
 
 
+
+
+window.setLayout(Mainlayout)
 
 sys.exit(app.exec_())
 
