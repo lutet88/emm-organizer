@@ -175,8 +175,11 @@ def getColoredStyle(x, y):
 
 
 prevcoord = [-1, -1]
+prevrealcoord = []
 def handleCabinetButtons(i):
-    global prevcoord
+    global prevcoord, prevrealcoord
+
+    print("entry: prevcoord:", prevcoord, prevrealcoord)
     (x, y) = i
     print("button", x, y, "pressed")
     global rgb, mapper, layer
@@ -189,12 +192,11 @@ def handleCabinetButtons(i):
                 rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
         else:
             rgb.clear()
-        if prevcoord[0] != -1:
-            for x in range(5):
-                for y in range(4):
-                    (r, g, b) = (str(k) for k in db.getColor(4 * x + y))
-                    cabinet.buttons[x][y].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
-                    cabinet.buttons[x][y].setText(db.getName(4 * x + y))
+        if prevrealcoord and not (prevrealcoord[0] == x and prevrealcoord[1] == y):
+            print("refreshing the thing at", "x, y")
+            cabinet.buttons[prevrealcoord[0]][prevrealcoord[1]].setText(db.getName(4 * prevrealcoord[0] + prevrealcoord[1]))
+            (r, g, b) = (str(k) for k in db.getColor(4 * prevrealcoord[0] + prevrealcoord[1]))
+            cabinet.buttons[prevrealcoord[0]][prevrealcoord[1]].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
     if x == 0 and y == 0:
         layer = 0
         # switch back
@@ -202,16 +204,18 @@ def handleCabinetButtons(i):
         editorWidget.hide()
         rgb.clear()
         return
-    if prevcoord[0] != -1:
-        cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+" / "+str(db.getMaximum(4 * x + y)))
-        (r, g, b) = getColoredStyle(x, y)
-        rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 105)*0.4), int((int(g) - 105)*0.4), int((int(b) - 105)*0.4))
-        cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
+
+    cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+" / "+str(db.getMaximum(4 * x + y)))
+    (r, g, b) = getColoredStyle(x, y)
+    rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 105)*0.4), int((int(g) - 105)*0.4), int((int(b) - 105)*0.4))
+    cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
     if prevcoord[0] == x and prevcoord[1] == y:
         prevcoord = [-1, -1]
     else:
         prevcoord = [x, y]
+    prevrealcoord = [x, y]
     rgb.refresh()
+    print("exit: prevcoord:", prevcoord, prevrealcoord)
 
 
 class CabinetLayout:
