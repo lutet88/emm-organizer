@@ -15,7 +15,7 @@ if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
     window.showFullScreen()
 else:
     window.setWindowTitle('Rpi Screen')
-    window.setFixedSize(640, 480)
+    window.setFixedSize(800, 480)
     window.show()
 
 
