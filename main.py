@@ -178,6 +178,12 @@ def handleCabinetButtons(i):
     print("button", x, y, "pressed")
     global rgb, mapper, layer
     rgb.clear()
+    
+    # fill rgb for all cells
+    for button in range(20):
+        (r, g, b) = (int(x * 0.14) for x in db.getColor(button))
+        rgb.fillStrip(mapper.getMapBy2DIndex(button).value, r, g, b)
+    
     if prevcoord:
         cabinet.buttons[prevcoord[0]][prevcoord[1]].setText(db.getName(4 * prevcoord[0] + prevcoord[1]))
         (r, g, b) = (str(k) for k in db.getColor(4 * prevcoord[0] + prevcoord[1]))
@@ -187,13 +193,15 @@ def handleCabinetButtons(i):
         # switch back
         mainWidget.show()
         editorWidget.hide()
+        rgb.clear()
         return
 
     cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+"/"+str(db.getMaximum(4 * x + y)))
     (r, g, b) = getColoredStyle(x, y)
-    rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 155)*0.4), int((int(g) - 155)*0.4), int((int(b) - 155)*0.4), True)
+    rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 105)*0.4), int((int(g) - 105)*0.4), int((int(b) - 105)*0.4))
     cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
     prevcoord = [x, y]
+    rgb.refresh()
 
 
 class CabinetLayout:
