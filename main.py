@@ -12,9 +12,9 @@ window = QWidget()
 
 os = platform.system()
 
-if os == "Linux"
+if os == "Linux":
     comport = "/tty/ACM0"
-else
+else:
     comport = "COM14"
 
 
