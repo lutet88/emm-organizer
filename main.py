@@ -13,7 +13,7 @@ os = platform.platform()
 dist = platform.platform()
 
 
-if dist[0] == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
+if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
     window.showFullScreen()
 else:
     window.setWindowTitle('Rpi Screen')
@@ -41,7 +41,6 @@ else:
 
 # Grid Layout Widget
 
-Mainlayout = QGridLayout()
 
 buttonstyle = """
     QWidget {
@@ -56,10 +55,20 @@ titlestyle = """
             font-family: "DejaVu Sans";
             font-size: 60px; 
             height: 100px;
+            background-position: top right
             }
         """
 
+def DisplayText():
+    QLabel("Pog")
 
+
+Mainlayout = QGridLayout()
+Editorlayout = QGridLayout()
+
+
+
+# Main Menu
 MenuTitle = QLabel("Smart Cabnite")
 MenuTitle.setStyleSheet(titlestyle)
 
@@ -78,23 +87,38 @@ Mainlayout.addWidget(Button2, 1, 1)
 Mainlayout.addWidget(Button3, 2, 0)
 Mainlayout.addWidget(Button4, 2, 1)
 
-# layout.addWidget(QPushButton('Button (1, 1)'), 1, 1)
-# layout.addWidget(QPushButton('Button (1, 2)'), 1, 2)
-# layout.addWidget(QPushButton('Button (2, 0)'), 2, 0)
-# layout.addWidget(QPushButton('Button (2, 1) + 2 Columns Span'), 2, 1, 1, 2)
+def Button1pressed():
+    print("hi")
+
+def Button2pressed():
+    print("hi")
+
+def Button3pressed():
+    print("hi")
+    
+def Button4pressed():
+    print("hi")
+
+Button1.clicked.connect(Button1pressed)
+Button2.clicked.connect(Button2pressed)
+Button3.clicked.connect(Button3pressed)
+Button4.clicked.connect(Button4pressed)
+
+
+#Editor Layout
+
+
+EditorTitle = QLabel("Brexit")
+EditorTitle.setStyleSheet(titlestyle)
+
+Editorlayout.addWidget(EditorTitle, 0, 0)
+
+
+
+
+
 window.setLayout(Mainlayout)
 
-# Form Layout
-# layout2 = QFormLayout()
-# layout2.addRow('Name:', QLineEdit())
-# window.setLayout(layout)
-# layout.addRow('Age:', QLineEdit())
-# layout.addRow('Job:', QLineEdit())
-# layout.addRow('Hobbies:', QLineEdit())
-# layout2 = QDialogButtonBox()
-# btns = QDialogButtonBox()
-# btns.setStandardButtons(
-#    QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
-
-
 sys.exit(app.exec_())
+
+
