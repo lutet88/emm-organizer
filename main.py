@@ -25,7 +25,7 @@ dist = platform.platform()
 mapper = get_pinmapper()
 rgb = RGBController(comport)
 rgb.clear()
-db = Database("db4.json", testing=True)
+db = Database("db5.json", testing=True)
 
 
 if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
@@ -144,7 +144,7 @@ mainLayout.addWidget(buttons.buttons[3], 2, 1)
 def buttonPressed(button):
     global layer
     print("button", button, "pressed")
-    if layer == 0 and button == 1:
+    if layer == 0 and button == 3:
         # manage drawers
         layer = 1
         mainWidget.hide()
@@ -208,7 +208,7 @@ def handleCabinetButtons(i):
 
     cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+" / "+str(db.getMaximum(4 * x + y)))
     (r, g, b) = getColoredStyle(x, y)
-    rgb.fillStrip(mapper.getMapBy2D(x, y).value, int((int(r) - 105)*0.4), int((int(g) - 105)*0.4), int((int(b) - 105)*0.4))
+    rgb.fillStrip(mapper.getMapBy2D(x, y).value, round((int(r) - 135)*0.4), round((int(g) - 135)*0.4), round((int(b) - 135)*0.4))
     cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
     if prevcoord[0] == x and prevcoord[1] == y:
         prevcoord = [-1, -1]
