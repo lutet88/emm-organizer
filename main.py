@@ -3,12 +3,17 @@ import platform
 
 from PyQt5.QtCore import Qt 
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout, QGridLayout, QFormLayout, QLineEdit, QDialogButtonBox, QDialog
+from hwcode.RGBController import RGBController
+from hwcode.pinmaps import get_pinmapper
 
 # Hello World in Application
 app = QApplication(sys.argv)
 window = QWidget()
 
 dist = platform.platform()
+mapper = get_pinmapper()
+rgb = RGBController("COM14")
+rgb.clear()
 
 
 if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
@@ -50,17 +55,42 @@ titlestyle = """
 def DisplayText():
     QLabel("Pog")
 
-
+allLayout = QVBoxLayout()
 mainLayout = QGridLayout()
 editorLayout = QGridLayout()
+mainWidget = QWidget()
+editorWidget = QWidget()
+
+mainWidget.setLayout(mainLayout)
+editorWidget.setLayout(editorLayout)
+
+allLayout.addWidget(mainWidget)
+allLayout.addWidget(editorWidget)
+
+editorWidget.hide()
+
+layer = 0
 
 
 # Main Menu
-MenuTitle = QLabel("Smart Cabinet v0.1")
+MenuTitle = QLabel("Smart Cabinet")
 MenuTitle.setStyleSheet(titlestyle)
 
-def buttonPressed(button):
-    print("button", button, "pressed")
+class ButtonLayout:
+    def __init__(self, names):
+        self.buttons = [QPushButton() for x in range(4)]
+        for buttonIndex in range(4):
+            self.buttons[buttonIndex].setStyleSheet(buttonstyle)
+            self.buttons[buttonIndex].setText(names[buttonIndex])
+    def changeText(self, id, text):
+        self.buttons[id].setText(text)
+    def changeTexts(self, texts):
+        for buttonIndex in range(4):
+            self.buttons[buttonIndex].setText(texts[buttonIndex])
+    def connectButton(self, id, connection):
+        self.buttons[id].clicked.connect(connection)
+
+buttons = ButtonLayout(["Quick Access", "Manage Drawers", "My Projects", "Check Supply"])
 
 def Button1pressed():
     buttonPressed(0)
@@ -74,18 +104,6 @@ def Button3pressed():
 def Button4pressed():
     buttonPressed(3)
 
-class ButtonLayout:
-    def __init__(self, names):
-        self.buttons = [QPushButton() for x in range(4)]
-        for buttonIndex in range(4):
-            self.buttons[buttonIndex].setStyleSheet(buttonstyle)
-            self.buttons[buttonIndex].setText(names[buttonIndex])
-    def changeText(self, id, text):
-        self.buttons[id].setText(text)
-    def connectButton(self, id, connection):
-        self.buttons[id].clicked.connect(connection)
-
-buttons = ButtonLayout(["Quick Access", "Manage Drawers", "Pick a Drawer", "Check Supply"])
 buttons.connectButton(0, Button1pressed)
 buttons.connectButton(1, Button2pressed)
 buttons.connectButton(2, Button3pressed)
@@ -97,18 +115,52 @@ mainLayout.addWidget(buttons.buttons[1], 1, 1)
 mainLayout.addWidget(buttons.buttons[2], 2, 0)
 mainLayout.addWidget(buttons.buttons[3], 2, 1)
 
+def buttonPressed(button):
+    global layer
+    print("button", button, "pressed")
+    if layer == 0 and button == 1:
+        # manage drawers
+        layer = 1
+        mainWidget.hide()
+        editorWidget.show()
+        
+    elif layer == 0 and button == 2:
+        # etc etc
+        pass
+    elif layer == 1 and button == 0:
+        layer = 0
+        buttons.changeTexts(["Quick Access", "Manage Drawers", "My Projects", "Check Supply"])
+        
+names = ["John", "William", "Charles", "James", "George", "Frank", "Joseph", "Henry", "Thomas", "Harry"]
 
-def Button1pressed():
-    print("1")
-
-def Button2pressed():
-    print("2")
-
-def Button3pressed():
-    print("3")
+def handleCabinetButtons(i):
+    (x, y) = i
+    print("button", x, y, "pressed")
+    global rgb, mapper, layer
+    rgb.clear()
+    if x == 0 and y == 0:
+        layer = 0
+        # switch back
+        mainWidget.show()
+        editorWidget.hide()
+        return
+    rgb.fillStrip(mapper.getMapBy2D(x, y).value, 0, 25, 0, True)
     
-def Button4pressed():
-    print("4")
+
+
+class CabinetLayout:
+    def __init__(self):
+        self.buttons = [[QPushButton() for x in range(4)] for y in range(5)]
+    def assignToLayout(self, layout):
+        for x in range(5):
+            for y in range(4):
+                layout.addWidget(self.buttons[x][y], y, x)
+    def connectButtons(self):
+        for x in range(5):
+            for y in range(4):
+                print("connecting ", self.buttons[x][y], "to", x, y)
+                self.buttons[x][y].clicked.connect(lambda state, i=(x, y): handleCabinetButtons(i))
+
 
 
 
@@ -118,13 +170,12 @@ def Button4pressed():
 EditorTitle = QLabel("Brexit")
 EditorTitle.setStyleSheet(titlestyle)
 
-editorLayout.addWidget(EditorTitle, 0, 0)
+cabinet = CabinetLayout()
+cabinet.assignToLayout(editorLayout)
+cabinet.connectButtons()
 
 
-
-
-
-window.setLayout(mainLayout)
+window.setLayout(allLayout)
 
 sys.exit(app.exec_())
 
