@@ -76,6 +76,7 @@ editorLayout = QGridLayout()
 mainWidget = QWidget()
 editorWidget = QWidget()
 
+
 mainWidget.setLayout(mainLayout)
 editorWidget.setLayout(editorLayout)
 
@@ -180,6 +181,9 @@ class CabinetLayout:
             for y in range(4):
                 print("connecting ", self.buttons[x][y], "to", x, y)
                 self.buttons[x][y].clicked.connect(lambda state, i=(x, y): handleCabinetButtons(i))
+
+
+
 
 
 
