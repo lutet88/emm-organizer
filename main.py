@@ -41,7 +41,6 @@ else:
 
 # Grid Layout Widget
 
-Mainlayout = QGridLayout()
 
 buttonstyle = """
     QWidget {
@@ -56,10 +55,17 @@ titlestyle = """
             font-family: "DejaVu Sans";
             font-size: 60px; 
             height: 100px;
+            background-position: top right
             }
         """
 
 
+Mainlayout = QGridLayout()
+Editorlayout = QGridLayout()
+
+
+
+# Main Menu
 MenuTitle = QLabel("Smart Cabnite")
 MenuTitle.setStyleSheet(titlestyle)
 
@@ -78,23 +84,21 @@ Mainlayout.addWidget(Button2, 1, 1)
 Mainlayout.addWidget(Button3, 2, 0)
 Mainlayout.addWidget(Button4, 2, 1)
 
-# layout.addWidget(QPushButton('Button (1, 1)'), 1, 1)
-# layout.addWidget(QPushButton('Button (1, 2)'), 1, 2)
-# layout.addWidget(QPushButton('Button (2, 0)'), 2, 0)
-# layout.addWidget(QPushButton('Button (2, 1) + 2 Columns Span'), 2, 1, 1, 2)
 window.setLayout(Mainlayout)
 
-# Form Layout
-# layout2 = QFormLayout()
-# layout2.addRow('Name:', QLineEdit())
-# window.setLayout(layout)
-# layout.addRow('Age:', QLineEdit())
-# layout.addRow('Job:', QLineEdit())
-# layout.addRow('Hobbies:', QLineEdit())
-# layout2 = QDialogButtonBox()
-# btns = QDialogButtonBox()
-# btns.setStandardButtons(
-#    QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
+Button1.clicked.connect(window.setLayout(Editorlayout))
+
+#Editor Layout
+
+
+EditorTitle = QLabel("Brexit")
+EditorTitle.setStyleSheet(titlestyle)
+
+Editorlayout.addWidget(EditorTitle, 0, 0)
+
+
 
 
 sys.exit(app.exec_())
+
+
