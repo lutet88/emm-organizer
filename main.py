@@ -191,7 +191,7 @@ def handleCabinetButtons(i):
 
     cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+"/"+str(db.getMaximum(4 * x + y)))
     (r, g, b) = getColoredStyle(x, y)
-    rgb.fillStrip(mapper.getMapBy2D(x, y).value, (r - 155)*0.4, (g - 155)*0.4, (b - 155)*0.4, True)
+    rgb.fillStrip(mapper.getMapBy2D(x, y).value, (int(r) - 155)*0.4, (int(g) - 155)*0.4, (int(b) - 155)*0.4, True)
     cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
     prevcoord = [x, y]
 
