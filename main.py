@@ -23,17 +23,27 @@ else:
 buttonstyle = """
     QWidget {
             font-family: "DejaVu Sans Mono";
-            font-size: 60px;
-            height: 100px;
-            background-color: rgb(206, 209, 219)
+            font-size: 40px;
+            height: 175px;
+            min-width: 360px;
+            max-width: 360px;
+            border: 15px ridge rgb(60, 90, 120);
+            color: rgb(0,0,0);
+            background-color: rgb(120, 150, 180)
             }
         """
 titlestyle = """
     QWidget {
             font-family: "DejaVu Sans";
             font-size: 40px; 
+            font-size: 60px; 
+            font-weight:bold;
             height: 100px;
-            background-position: top right
+            margin-bottom:200px;
+            margin-left: 160px;
+            color: rgb(56, 56, 56);
+            min-width: 500px;
+            max-width: 500px;
             }
         """
 
@@ -75,7 +85,7 @@ class ButtonLayout:
     def connectButton(self, id, connection):
         self.buttons[id].clicked.connect(connection)
 
-buttons = ButtonLayout(["A", "B", "C", "D"])
+buttons = ButtonLayout(["Quick Access", "Manage Drawers", "Pick a Drawer", "Check Supply"])
 buttons.connectButton(0, Button1pressed)
 buttons.connectButton(1, Button2pressed)
 buttons.connectButton(2, Button3pressed)
@@ -87,6 +97,18 @@ mainLayout.addWidget(buttons.buttons[1], 1, 1)
 mainLayout.addWidget(buttons.buttons[2], 2, 0)
 mainLayout.addWidget(buttons.buttons[3], 2, 1)
 
+
+def Button1pressed():
+    print("1")
+
+def Button2pressed():
+    print("2")
+
+def Button3pressed():
+    print("3")
+    
+def Button4pressed():
+    print("4")
 
 
 
