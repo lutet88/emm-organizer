@@ -190,9 +190,11 @@ def handleCabinetButtons(i):
         else:
             rgb.clear()
         if prevcoord[0] != -1:
-            cabinet.buttons[prevcoord[0]][prevcoord[1]].setText(db.getName(4 * prevcoord[0] + prevcoord[1]))
-            (r, g, b) = (str(k) for k in db.getColor(4 * prevcoord[0] + prevcoord[1]))
-            cabinet.buttons[prevcoord[0]][prevcoord[1]].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
+            for x in range(5):
+                for y in range(4):
+                    (r, g, b) = (str(k) for k in db.getColor(4 * x + y))
+                    self.buttons[x][y].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
+                    self.buttons[x][y].setText(db.getName(4 * x + y))
     if x == 0 and y == 0:
         layer = 0
         # switch back
