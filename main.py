@@ -1,6 +1,7 @@
 import sys
 import platform
 
+from PyQt5.QtCore import Qt 
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout, QGridLayout, QFormLayout, QLineEdit, QDialogButtonBox, QDialog
 
 # Hello World in Application
@@ -13,7 +14,7 @@ if dist[0] == "debian":
     window.showFullScreen()
 else:
     window.setWindowTitle('Rpi Screen')
-    window.setGeometry(100, 100, 800, 480)
+    window.setFixedSize(800, 480)
     window.show()
 
 # Should create three different boxes horizontally
@@ -37,19 +38,31 @@ else:
 
 # Grid Layout Widget
 layout = QGridLayout()
+style = """
+    QWidget {
+            font-family: "DejaVu Sans Mono";
+            font-size: 60px;
+            height: 100px
+            }
+        """
 
 MenuTitle = QLabel("Smart Cabnite")
+MenuTitle.setAlignment(Qt.AlignCenter)
 
-EditStockButton = QPushButton("Edit Stock")
-StockVisButton = QPushButton("Visulize Current Stock")
-TempButton = QPushButton("Edit Project Templates")
-StartProjectButtom = QPushButton("Start Project")
+Button1 = QPushButton("Button 1")
+Button1.setStyleSheet(style)
+Button2 = QPushButton("Button 2")
+Button2.setStyleSheet(style)
+Button3 = QPushButton("Button 3")
+Button3.setStyleSheet(style)
+Button4 = QPushButton("Button 4")
+Button4.setStyleSheet(style)
 
 layout.addWidget(MenuTitle, 0, 0, 2, 1)
-layout.addWidget(EditStockButton, 1, 0)
-layout.addWidget(StockVisButton, 1, 1)
-layout.addWidget(TempButton, 2, 0)
-layout.addWidget(StartProjectButtom, 2, 1)
+layout.addWidget(Button1, 1, 0)
+layout.addWidget(Button2, 1, 1)
+layout.addWidget(Button3, 2, 0)
+layout.addWidget(Button4, 2, 1)
 
 # layout.addWidget(QPushButton('Button (1, 1)'), 1, 1)
 # layout.addWidget(QPushButton('Button (1, 2)'), 1, 2)
