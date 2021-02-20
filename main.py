@@ -10,6 +10,16 @@ from hwcode.pinmaps import get_pinmapper
 app = QApplication(sys.argv)
 window = QWidget()
 
+os = platform.system()
+
+if os == "Linux"
+    comport = "/tty/ACM0"
+else
+    comport = "COM14"
+
+
+
+
 dist = platform.platform()
 mapper = get_pinmapper()
 rgb = RGBController("COM14")
@@ -36,6 +46,17 @@ buttonstyle = """
             }
         """
 titlestyle = """
+    QWidget {
+            font-family: "DejaVu Sans";
+            font-size: 40px;  
+            font-weight:bold;
+            text-align: right;
+            height: 100px;
+            color: rgb(56, 56, 56);
+            }
+        """
+        
+cabinetstyle = """
     QWidget {
             font-family: "DejaVu Sans";
             font-size: 40px;  
@@ -146,6 +167,10 @@ def handleCabinetButtons(i):
 class CabinetLayout:
     def __init__(self):
         self.buttons = [[QPushButton() for x in range(4)] for y in range(5)]
+        for x in range(5):
+            for y in range(4):
+                self.buttons[x][y].setStyleSheet(cabinetstyle)
+                self.buttons[x][y].setText(names[x][y])
     def assignToLayout(self, layout):
         for x in range(5):
             for y in range(4):
@@ -155,7 +180,6 @@ class CabinetLayout:
             for y in range(4):
                 print("connecting ", self.buttons[x][y], "to", x, y)
                 self.buttons[x][y].clicked.connect(lambda state, i=(x, y): handleCabinetButtons(i))
-
 
 
 
