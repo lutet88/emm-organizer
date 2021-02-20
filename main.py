@@ -8,9 +8,12 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushBut
 app = QApplication(sys.argv)
 window = QWidget()
 
-dist = platform.dist()
+os = platform.platform()
 
-if dist[0] == "debian":
+dist = platform.platform()
+
+
+if dist[0] == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
     window.showFullScreen()
 else:
     window.setWindowTitle('Rpi Screen')
@@ -37,38 +40,49 @@ else:
 
 
 # Grid Layout Widget
-layout = QGridLayout()
-style = """
+
+Mainlayout = QGridLayout()
+
+buttonstyle = """
     QWidget {
             font-family: "DejaVu Sans Mono";
             font-size: 60px;
-            height: 100px
+            height: 100px;
+            background-color: rgb(206, 209, 219)
+            }
+        """
+titlestyle = """
+    QWidget {
+            font-family: "DejaVu Sans";
+            font-size: 60px; 
+            height: 100px;
             }
         """
 
+
 MenuTitle = QLabel("Smart Cabnite")
-MenuTitle.setAlignment(Qt.AlignCenter)
+MenuTitle.setStyleSheet(titlestyle)
 
 Button1 = QPushButton("Button 1")
-Button1.setStyleSheet(style)
+Button1.setStyleSheet(buttonstyle)
 Button2 = QPushButton("Button 2")
-Button2.setStyleSheet(style)
+Button2.setStyleSheet(buttonstyle)
 Button3 = QPushButton("Button 3")
-Button3.setStyleSheet(style)
+Button3.setStyleSheet(buttonstyle)
 Button4 = QPushButton("Button 4")
-Button4.setStyleSheet(style)
+Button4.setStyleSheet(buttonstyle)
 
-layout.addWidget(MenuTitle, 0, 0, 2, 1)
-layout.addWidget(Button1, 1, 0)
-layout.addWidget(Button2, 1, 1)
-layout.addWidget(Button3, 2, 0)
-layout.addWidget(Button4, 2, 1)
+Mainlayout.addWidget(MenuTitle, 0, 0, 2, 1)
+Mainlayout.addWidget(Button1, 1, 0)
+Mainlayout.addWidget(Button2, 1, 1)
+Mainlayout.addWidget(Button3, 2, 0)
+Mainlayout.addWidget(Button4, 2, 1)
 
 # layout.addWidget(QPushButton('Button (1, 1)'), 1, 1)
 # layout.addWidget(QPushButton('Button (1, 2)'), 1, 2)
 # layout.addWidget(QPushButton('Button (2, 0)'), 2, 0)
 # layout.addWidget(QPushButton('Button (2, 1) + 2 Columns Span'), 2, 1, 1, 2)
-window.setLayout(layout)
+window.setLayout(Mainlayout)
 
 # Form Layout
 # layout2 = QFormLayout()
