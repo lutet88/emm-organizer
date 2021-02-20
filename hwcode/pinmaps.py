@@ -4,7 +4,7 @@
 # import pinmaps
 # mapper = pinmaps.get_pinmapper()
 
-from PinMapper import PinMapper
+from hwcode.PinMapper import PinMapper
 
 def get_pinmapper():
     pm = PinMapper((5, 4))
