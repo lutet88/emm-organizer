@@ -49,9 +49,9 @@ buttonstyle = """
             height: 175px;
             min-width: 360px;
             max-width: 360px;
-            border-width: 15px;
-            border-type: solid;
-            background-color: rgb(206, 209, 219)
+            border: 15px ridge rgb(60, 90, 120);
+            color: rgb(0,0,0);
+            background-color: rgb(120, 150, 180)
             }
         """
 titlestyle = """
@@ -62,6 +62,7 @@ titlestyle = """
             height: 100px;
             margin-bottom:200px;
             margin-left: 160px;
+            color: rgb(56, 56, 56,);
             min-width: 500px;
             max-width: 500px;
             }
@@ -96,16 +97,16 @@ Mainlayout.addWidget(Button3, 2, 0)
 Mainlayout.addWidget(Button4, 2, 1)
 
 def Button1pressed():
-    print("hi")
+    print("1")
 
 def Button2pressed():
-    print("hi")
+    print("2")
 
 def Button3pressed():
-    print("hi")
+    print("3")
     
 def Button4pressed():
-    print("hi")
+    print("4")
 
 Button1.clicked.connect(Button1pressed)
 Button2.clicked.connect(Button2pressed)
