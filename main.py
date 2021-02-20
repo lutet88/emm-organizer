@@ -35,11 +35,9 @@ titlestyle = """
             font-family: "DejaVu Sans";
             font-size: 40px;  
             font-weight:bold;
+            text-align: right;
             height: 100px;
-            margin-bottom:200px;
-            margin-left: 75px;
             color: rgb(56, 56, 56);
-            width: 600px;
             }
         """
 
@@ -54,6 +52,7 @@ editorLayout = QGridLayout()
 # Main Menu
 MenuTitle = QLabel("Smart Cabinet v0.1")
 MenuTitle.setStyleSheet(titlestyle)
+MenuTitle.setAlignment(Qt.AlignCenter)
 
 def buttonPressed(button):
     print("button", button, "pressed")
@@ -87,7 +86,7 @@ buttons.connectButton(1, Button2pressed)
 buttons.connectButton(2, Button3pressed)
 buttons.connectButton(3, Button4pressed)
 
-mainLayout.addWidget(MenuTitle, 0, 0, 2, 1)
+mainLayout.addWidget(MenuTitle, 0, 0, 1, 2)
 mainLayout.addWidget(buttons.buttons[0], 1, 0)
 mainLayout.addWidget(buttons.buttons[1], 1, 1)
 mainLayout.addWidget(buttons.buttons[2], 2, 0)
