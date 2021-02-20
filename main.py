@@ -22,7 +22,7 @@ else:
 
 dist = platform.platform()
 mapper = get_pinmapper()
-rgb = RGBController("COM14")
+rgb = RGBController(comport)
 rgb.clear()
 
 
