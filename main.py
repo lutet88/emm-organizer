@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout, QGridLayout, QFormLayout, QLineEdit, QDialogButtonBox, QDialog
 from hwcode.RGBController import RGBController
 from hwcode.pinmaps import get_pinmapper
+from database import Database
 
 # Hello World in Application
 app = QApplication(sys.argv)
@@ -13,7 +14,7 @@ window = QWidget()
 os = platform.system()
 
 if os == "Linux":
-    comport = "/tty/ACM0"
+    comport = "/dev/ttyACM0"
 else:
     comport = "COM14"
 
@@ -24,6 +25,7 @@ dist = platform.platform()
 mapper = get_pinmapper()
 rgb = RGBController(comport)
 rgb.clear()
+db = Database("db4.json", testing=True)
 
 
 if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
@@ -59,12 +61,19 @@ titlestyle = """
 cabinetstyle = """
     QWidget {
             font-family: "DejaVu Sans";
-            font-size: 40px;  
-            font-weight:bold;
-            text-align: right;
+            font-size: 20px;  
+            text-align: center;
             height: 100px;
             color: rgb(56, 56, 56);
-            }
+        """
+        
+cabinethighlightedstyle = """
+    QWidget {
+            font-family: "DejaVu Sans";
+            font-size: 20px;  
+            text-align: center;
+            height: 100px;
+            color: rgb(56, 56, 56);
         """
 
 def DisplayText():
@@ -149,19 +158,42 @@ def buttonPressed(button):
         
 names = ["John", "William", "Charles", "James", "George", "Frank", "Joseph", "Henry", "Thomas", "Harry"]
 
+
+def getColoredStyle(x, y):
+    quant = db.getQuantity(4 * x + y)
+    maximum = db.getMaximum(4 * x + y)
+    diff = quant / maximum
+    neg = 0 if diff > 0.5 else 0.5 - diff
+    pos = 0 if diff < 0.5 else diff - 0.5
+    r = str(int(155 + neg * 100))
+    g = str(int(155 + pos * 100))
+    b = "155"
+    return (r, g, b)
+
+
+prevcoord = []
 def handleCabinetButtons(i):
+    global prevcoord
     (x, y) = i
     print("button", x, y, "pressed")
     global rgb, mapper, layer
     rgb.clear()
+    if prevcoord:
+        cabinet.buttons[prevcoord[0]][prevcoord[1]].setText(db.getName(4 * prevcoord[0] + prevcoord[1]))
+        (r, g, b) = (str(k) for k in db.getColor(4 * prevcoord[0] + prevcoord[1]))
+        cabinet.buttons[prevcoord[0]][prevcoord[1]].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
     if x == 0 and y == 0:
         layer = 0
         # switch back
         mainWidget.show()
         editorWidget.hide()
         return
-    rgb.fillStrip(mapper.getMapBy2D(x, y).value, 0, 25, 0, True)
-    
+
+    cabinet.buttons[x][y].setText(str(db.getQuantity(4 * x + y))+"/"+str(db.getMaximum(4 * x + y)))
+    (r, g, b) = getColoredStyle(x, y)
+    rgb.fillStrip(mapper.getMapBy2D(x, y).value, (r - 155)*0.4, (g - 155)*0.4, (b - 155)*0.4, True)
+    cabinet.buttons[x][y].setStyleSheet(cabinethighlightedstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
+    prevcoord = [x, y]
 
 
 class CabinetLayout:
@@ -169,8 +201,9 @@ class CabinetLayout:
         self.buttons = [[QPushButton() for x in range(4)] for y in range(5)]
         for x in range(5):
             for y in range(4):
-                self.buttons[x][y].setStyleSheet(cabinetstyle)
-                self.buttons[x][y].setText(names[x][y])
+                (r, g, b) = (str(k) for k in db.getColor(4 * x + y))
+                self.buttons[x][y].setStyleSheet(cabinetstyle+"background-color: rgb("+r+", "+g+", "+b+")}")
+                self.buttons[x][y].setText(db.getName(4 * x + y))
     def assignToLayout(self, layout):
         for x in range(5):
             for y in range(4):
