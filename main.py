@@ -40,10 +40,10 @@ titlestyle = """
             font-weight:bold;
             height: 100px;
             margin-bottom:200px;
-            margin-left: 160px;
+            margin-left: 75px;
             color: rgb(56, 56, 56);
-            min-width: 500px;
-            max-width: 500px;
+            min-width: 600px;
+            max-width: 600px;
             }
         """
 
