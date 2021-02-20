@@ -46,7 +46,7 @@ Mainlayout = QGridLayout()
 buttonstyle = """
     QWidget {
             font-family: "DejaVu Sans Mono";
-            font-size: 60px;
+            font-size: 40px;
             height: 100px;
             background-color: rgb(206, 209, 219)
             }
@@ -63,13 +63,13 @@ titlestyle = """
 MenuTitle = QLabel("Smart Cabnite")
 MenuTitle.setStyleSheet(titlestyle)
 
-Button1 = QPushButton("Button 1")
+Button1 = QPushButton("Quick Access")
 Button1.setStyleSheet(buttonstyle)
-Button2 = QPushButton("Button 2")
+Button2 = QPushButton("Manage Drawers")
 Button2.setStyleSheet(buttonstyle)
-Button3 = QPushButton("Button 3")
+Button3 = QPushButton("Pick a Drawer")
 Button3.setStyleSheet(buttonstyle)
-Button4 = QPushButton("Button 4")
+Button4 = QPushButton("Check Supply")
 Button4.setStyleSheet(buttonstyle)
 
 Mainlayout.addWidget(MenuTitle, 0, 0, 2, 1)
