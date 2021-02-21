@@ -1,6 +1,7 @@
 
 # emm-organizer
 brought to you by the end my missouri (emm) hackers
+
 ![enter image description here](https://media.giphy.com/media/YuRF2eB0Q1SsGYem9B/source.gif)
 ---------------
 ## event
