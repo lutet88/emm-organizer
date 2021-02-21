@@ -5,6 +5,7 @@ brought to you by the end my missouri (emm) hackers
 ---------------
 ## event
 **KU Hackfest** - [Link](kuhackfest.com)
+
 this is literally our first hackathon. we planned our time really poorly and couldn't finish everything we wanted to.
 
 ## abstract
