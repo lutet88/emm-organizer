@@ -31,6 +31,8 @@ We basically drilled 6mm holes through the breadboards, put the jack through, an
 
 ## software
 
+![software SID](https://i.imgur.com/7qvrAei.png)
+
 ### code
 `main.py` - main driver script for the application. acts as an interface and executable Qt application, and should really be separated into separate scripts
 
