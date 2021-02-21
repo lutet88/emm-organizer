@@ -52,7 +52,9 @@ We basically drilled 6mm holes through the breadboards, put the jack through, an
 
 [imgur album](https://imgur.com/a/nXH9ZRP)
 
-[project log]( https://bit.ly/2ZxivB6)
+[project log](https://bit.ly/2ZxivB6)
+
+[product demo](https://www.youtube.com/watch?v=CQ3L8HZ4Y3U)
 
 ### members
 Jefferson Zhang ([lutet88](https://github.com/lutet88))
