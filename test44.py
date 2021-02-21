@@ -6,19 +6,13 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QPushBut
 from hwcode.RGBController import RGBController
 from hwcode.pinmaps import get_pinmapper
 
-# Hello World in Application
+# create application
 app = QApplication(sys.argv)
 window = QWidget()
 
-
-
-
-
-
+# find distribution (for Qt compatibility's sake)
 dist = platform.platform()
 mapper = get_pinmapper()
-
-
 
 if dist == "Linux-5.10.11-v7l+-armv7l-with-debian-10.8":
     window.showFullScreen()
@@ -27,7 +21,7 @@ else:
     window.setFixedSize(800, 480)
     window.show()
 
-
+# stylesheets
 colorbuttonstyle = """
     QWidget {
             font-family: "DejaVu Sans";
@@ -59,10 +53,8 @@ numstyle = """
         """
 
 
+#---- add the widgets already, damn it! ----#
 configure = QGridLayout()
-
-
-
 
 namelabel= QLabel("Name:")
 namelabel.setStyleSheet(cabinetstyle)
