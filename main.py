@@ -78,11 +78,8 @@ cabinethighlightedstyle = """
             color: rgb(56, 56, 56);
         """
 
-# Usless Function
-def DisplayText():
-    QLabel("Pog")
 
-# Layout Managment
+#---- Layout Management ----#
 
 # Create Layouts
 allLayout = QVBoxLayout()
@@ -104,7 +101,7 @@ editorWidget.hide()
 layer = 0
 
 
-# Main Menu
+#---- Main Menu ----#
 
 #Menu Title
 MenuTitle = QLabel("Smart Cabinet")
@@ -155,6 +152,7 @@ mainLayout.addWidget(buttons.buttons[1], 1, 1)
 mainLayout.addWidget(buttons.buttons[2], 2, 0)
 mainLayout.addWidget(buttons.buttons[3], 2, 1)
 
+#Handle button presses
 def buttonPressed(button):
     global layer
     print("button", button, "pressed")
@@ -172,9 +170,9 @@ def buttonPressed(button):
     elif layer == 1 and button == 0: #Reurn to main menu
         layer = 0
         buttons.changeTexts(["Quick Access", "Manage Drawers", "My Projects", "Check Supply"])
-        
-names = ["John", "William", "Charles", "James", "George", "Frank", "Joseph", "Henry", "Thomas", "Harry"] # Generic name list
 
+        
+#---- "Editor" ----#
 
 def getColoredStyle(x, y): # Calculate color based on position and stock
     quant = db.getQuantity(4 * x + y)
@@ -188,6 +186,7 @@ def getColoredStyle(x, y): # Calculate color based on position and stock
     return (r, g, b)
 
 
+# handle cabinet buttons
 prevcoord = [-1, -1]
 prevrealcoord = []
 def handleCabinetButtons(i):
@@ -198,7 +197,7 @@ def handleCabinetButtons(i):
     print("button", x, y, "pressed")  #Print log messages
     global rgb, mapper, layer
     
-    # set rgb for all cells
+    # set rgb for all cells, physical and display
     if prevcoord:
         if prevcoord[0] == x and prevcoord[1] == y:
             for button in range(20):
@@ -231,7 +230,7 @@ def handleCabinetButtons(i):
     rgb.refresh()
     print("exit: prevcoord:", prevcoord, prevrealcoord)
 
-
+# cabinet layout helper class
 class CabinetLayout:
     def __init__(self):
         self.buttons = [[QPushButton() for x in range(4)] for y in range(5)]
@@ -250,13 +249,7 @@ class CabinetLayout:
                 print("connecting ", self.buttons[x][y], "to", x, y) #loging
                 self.buttons[x][y].clicked.connect(lambda state, i=(x, y): handleCabinetButtons(i)) #Connect Buttons to the handler
 
-
-
-
-
-
-#Editor Layout
-
+#Setup Editor
 
 EditorTitle = QLabel("Brexit")
 EditorTitle.setStyleSheet(titlestyle)
@@ -266,6 +259,8 @@ cabinet = CabinetLayout()
 cabinet.assignToLayout(editorLayout)
 cabinet.connectButtons()
 
+
+#---- Window ----#
 
 window.setLayout(allLayout)
 
