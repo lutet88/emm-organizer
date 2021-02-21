@@ -41,7 +41,7 @@ We basically drilled 6mm holes through the breadboards, put the jack through, an
 
 `test44.py` - test for an unused feature (we were probably going to use it to withdraw/deposit)
 
-### hardware code
+### hardware code (hwcode folder)
 `rgbController/rgbController.ino` - MCU code through Arduino and Adafruit's nice board definitions. provides a 6-byte interface for controlling LEDs in a variety of ways
 
 `RGBController.py`- confusing name, I know. provides the `RGBController` object that allows asynchronous thread-safe interfacing with `rgbController.ino`
