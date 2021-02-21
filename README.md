@@ -12,9 +12,7 @@ Do you have a small parts organizer? If you do, you know how much of a pain it i
 
 ## hardware
 ![the organizer](https://i.imgur.com/ycVpBrz.jpg)
-
 We used a 20-tray organizer we found at Sim Lim Tower for S$13.50. 
-
 Everything else:
 - Raspberry Pi 4 (S$60ish)
 - 4.3'' HDMI TFT (S$65, which is a total scam imo)
@@ -33,31 +31,29 @@ We basically drilled 6mm holes through the breadboards, put the jack through, an
 ## software
 
 ### code
-
 `main.py` - main driver script for the application. acts as an interface and executable Qt application, and should really be separated into separate scripts
-
 `database.py` - loads and dumps json into a `Database` object. used by main.py extensively
-
 `test44.py` - test for an unused feature (we were probably going to use it to withdraw/deposit)
-
 ### hardware code
-
 `rgbController/rgbController.ino` - MCU code through Arduino and Adafruit's nice board definitions. provides a 6-byte interface for controlling LEDs in a variety of ways
-
 `RGBController.py`- confusing name, I know. provides the `RGBController` object that allows asynchronous thread-safe interfacing with `rgbController.ino`
-
 `PinMapper.py` - provides the framework for mapping pins to actual values easily for the `RGBController`
-
 `pinmaps.py` - literally just our pinmaps. don't use this.
 
 ## links
 [devfolio project](https://devfolio.co/submissions/smart-small-parts-organizer-2983)
+
 [imgur album](https://imgur.com/a/nXH9ZRP)
+
+[project log]( https://bit.ly/2ZxivB6)
 
 ### members
 Jefferson Zhang ([lutet88](https://github.com/lutet88))
+
 Liam Kelly ([Antarctic-Petrel](https://github.com/Antarctic-Petrel), [fillnye](https://github.com/fillnye))
+
 Diren Gomez ([D3lta-m3](https://github.com/D3lta-m3))
+
 Wilson Hou (no GitHub, he committed through Antarctic Petrel)
 
 
